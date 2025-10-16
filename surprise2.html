@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: black;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    margin-top: 20px;
+    text-shadow: 0 0 20px #ff1493, 0 0 30px #ff69b4;
+    animation: glowText 2s infinite alternate;
+  }
+
+  @keyframes glowText {
+    from { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493; }
+    to { text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4; }
+  }
+
+  /* Hearts */
+  .click-heart {
+    font-size: 50px;
+    margin: 20px;
+    cursor: pointer;
+    display: inline-block;
+    animation: pulse 1s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+  }
+
+  /* Door */
+  #door-container {
+    width: 300px;
+    height: 600px;
+    margin: 40px auto;
+    perspective: 1000px;
+    display: none;
+    position: relative;
+  }
+
+  #door {
+    width: 100%;
+    height: 100%;
+    background: brown;
+    border: 4px solid #8B4513;
+    border-radius: 10px;
+    transform-origin: left;
+    transform: rotateY(0deg);
+    transition: transform 1s;
+    position: relative;
+  }
+
+  /* Door handle */
+  #handle {
+    width: 15px;
+    height: 50px;
+    background: gold;
+    border-radius: 5px;
+    position: absolute;
+    right: 10px;
+    top: 45%;
+    cursor: pointer;
+  }
+
+  /* Image and Message (hidden initially) */
+  #surprise-content {
+    display: none;
+    margin-top: 20px;
+  }
+
+  #surprise-image {
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px pink;
+    animation: blinkGlow 1s infinite alternate;
+  }
+
+  @keyframes blinkGlow {
+    from { box-shadow: 0 0 20px pink; }
+    to { box-shadow: 0 0 40px #ff69b4; }
+  }
+
+  .message {
+    font-size: 1.5em;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<h1>Click all 3 hearts to unlock your surprise! ❤️</h1>
+
+<!-- Clickable hearts -->
+<div id="hearts-container">
+  <span class="click-heart" data-clicked="false">❤️</span>
+  <span class="click-heart" data-clicked="false">❤️</span>
+  <span class="click-heart" data-clicked="false">❤️</span>
+</div>
+
+<!-- Door Animation -->
+<div id="door-container">
+  <div id="door">
+    <div id="handle"></div>
+  </div>
+</div>
+
+<!-- Surprise Image + Message -->
+<div id="surprise-content">
+  <img id="surprise-image" src="./img8.jpeg" alt="Surprise Image">
+  <div class="message" id="message-box"></div>
+</div>
+
+<script>
+// Sequential message text
+const messages = [
+    "Happy Birthday My Love! 🎉",
+  "You are my sunshine in every dark day.",
+  "Every moment with you is magical ✨",
+  "On this special day, I just want to say —",
+  "I love you endlessly 💖"
+];
+
+const messageBox = document.getElementById("message-box");
+let messageIndex = 0;
+
+function typeWriter(text, element, index, callback){
+  if(index < text.length){
+    element.innerHTML += text.charAt(index);
+    setTimeout(() => typeWriter(text, element, index + 1, callback), 50);
+  } else {
+    callback();
+  }
+}
+
+function showMessageSequence(){
+  if(messageIndex < messages.length){
+    let line = document.createElement("div");
+    messageBox.appendChild(line);
+    typeWriter(messages[messageIndex], line, 0, () => {
+      messageIndex++;
+      setTimeout(showMessageSequence, 800);
+    });
+  }
+}
+
+// Heart click logic
+const hearts = document.querySelectorAll('.click-heart');
+let heartsClicked = 0;
+
+hearts.forEach(heart => {
+  heart.addEventListener('click', () => {
+    if(heart.dataset.clicked === "false"){
+      heart.dataset.clicked = "true";
+      heartsClicked++;
+      heart.style.transform = "scale(1.5)";
+      heart.style.opacity = 0.5;
+    }
+    if(heartsClicked === 3){
+      // Show door
+      document.getElementById('hearts-container').style.display = 'none';
+      document.getElementById('door-container').style.display = 'block';
+    }
+  });
+});
+
+// Door handle click logic
+document.getElementById('handle').addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent parent click
+  const door = document.getElementById('door');
+  door.style.transform = 'rotateY(-120deg)';
+
+  // After animation, show image and message
+  setTimeout(() => {
+    document.getElementById('door-container').style.display = 'none';
+    document.getElementById('surprise-content').style.display = 'block';
+    showMessageSequence();
+  }, 1000); // matches door transition duration
+});
+</script>
+
+</body>
+</html>

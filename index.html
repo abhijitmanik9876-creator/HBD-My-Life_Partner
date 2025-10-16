@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Love ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: 2.8em;
+    text-shadow: 0 0 10px #fff;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #fff, 0 0 20px #ff6ec7; }
+    to { text-shadow: 0 0 20px #fff, 0 0 30px #f9a8d4; }
+  }
+
+  .btn-container {
+    margin-top: 40px;
+  }
+
+  button {
+    background: #fff;
+    color: #ff4081;
+    border: none;
+    padding: 15px 35px;
+    margin: 10px;
+    font-size: 1.2em;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background: #ffe4f0;
+  }
+
+  .heart {
+    position: fixed;
+    bottom: 0;
+    color: #ff3366;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Can you see the surprise? 💖</h1>
+
+<div class="btn-container">
+  <button onclick="showSurprise()">Yes</button>
+  <button onclick="sayNo()">No</button>
+</div>
+
+<script>
+function showSurprise() {
+  // Sweet transition before loading second page
+  Swal.fire({
+    title: "Get Ready 🎁",
+    text: "Your surprise is loading...",
+    icon: "success",
+    background: '#fff0f6',
+    color: '#ff4b91',
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true,
+    willClose: () => {
+      window.location.href = "surprise.html";
+    }
+  });
+}
+
+function sayNo() {
+  Swal.fire({
+    title: "🥺",
+    html: "<b>Click Yes, my life partner 🥺❤️</b><br>Click yes my life!",
+    icon: "heart",
+    background: '#fff0f6',
+    color: '#ff4b91',
+    confirmButtonText: "Yes🥺",
+    confirmButtonColor: "#ff4b91",
+    backdrop: `
+      rgba(255,192,203,0.3)
+      url("https://i.gifer.com/1amw.gif")
+      center top
+      no-repeat
+    `
+  });
+}
+
+// floating hearts animation
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.textContent = '💖';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = Math.random() * 30 + 10 + 'px';
+  heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
